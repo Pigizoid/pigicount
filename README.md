@@ -1,4 +1,6 @@
-Use the function like 
+the function takes in a list of positive and negative integers
+
+
 list1 = pigi.sort(list1) 
 
 Benchmarks for sorting:
