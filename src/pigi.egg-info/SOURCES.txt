@@ -1,0 +1,10 @@
+LICENSE.txt
+README.md
+pyproject.toml
+src/pigi/__init__.py
+src/pigi/pigic.py
+src/pigi.egg-info/PKG-INFO
+src/pigi.egg-info/SOURCES.txt
+src/pigi.egg-info/dependency_links.txt
+src/pigi.egg-info/requires.txt
+src/pigi.egg-info/top_level.txt
