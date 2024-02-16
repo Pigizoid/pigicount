@@ -3,10 +3,6 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
-install_requires = [
-  'numpy==1.26.4; python_version>="3"', 
-  'numba==0.59; python_version>="3"', 
-  'numpy_minmax==0.2.0; python_version>="3"']
 dependencies = [
     "numpy==1.26.4",
     "numba==0.59",
@@ -19,7 +15,7 @@ authors = [
 ]
 description = "Fast Lightweight sorting algorithm"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python >="3"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
