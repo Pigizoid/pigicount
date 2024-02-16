@@ -1,6 +1,9 @@
 [build-system]
 requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
+[tool.setuptools]
+include-package-data = true
+[tool.setuptools.packages.find]
 
 [project]
 dependencies = [
@@ -21,7 +24,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-[tool.setuptools.packages.find]
 keywords = ["pigicount", "sorting", "algorithm", "counting", "count", "pigizoid", "pigi"]
 [project.urls]
 Homepage = "https://github.com/Pigizoid/pigicount"
