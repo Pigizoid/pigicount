@@ -3,8 +3,16 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
-dependencies = ["numpy>=1.26", "numba>=0.58", "numpy_minmax>=0.2.0"]
-name = "pigi-Pigizoid"
+install_requires = [
+  'numpy==1.26.4; python_version>="3"', 
+  'numba==0.59; python_version>="3"', 
+  'numpy_minmax==0.2.0; python_version>="3"']
+dependencies = [
+    "numpy==1.26.4",
+    "numba==0.59",
+    "numpy_minmax==0.2.0"
+]
+name = "pigi"
 version = "0.0.1"
 authors = [
   { name="Pigizoid", email="evansimpson470@gmail.com" },
@@ -17,6 +25,7 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+[tool.setuptools.packages.find]
 keywords = ["pigicount", "sorting", "algorithm", "counting", "count", "pigizoid", "pigi"]
 [project.urls]
 Homepage = "https://github.com/Pigizoid/pigicount"

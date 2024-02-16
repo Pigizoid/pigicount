@@ -83,12 +83,11 @@ def sort(list1):
 	#buckets=np.array([0])
 	return list1
 
+import math, time, random, gc, numpy_minmax
 
+import numpy as np
+from numba import prange
 if __name__ == "__main__":
-	import math, time, random, gc, numpy_minmax
-
-	import numpy as np
-	from numba import prange
 	#from memory_profiler import profile, memory_usage
 
 	num = int(input("p17 size: "))
