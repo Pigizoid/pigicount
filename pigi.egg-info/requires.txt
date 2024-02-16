@@ -1,3 +1,0 @@
-numpy==1.26.4
-numba==0.59
-numpy_minmax==0.2.0
