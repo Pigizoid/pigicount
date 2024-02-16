@@ -15,7 +15,7 @@ authors = [
 ]
 description = "Fast Lightweight sorting algorithm"
 readme = "README.md"
-requires-python >="3"
+requires-python ">=3"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
