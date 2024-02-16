@@ -1,6 +1,7 @@
 #@profile
 def sort(list1):
-	
+	if type(list1)==list:
+		list1=np.array(list1)
 	#-- find min max
 	llen = len(list1)
 	mini,maxi = numpy_minmax.minmax(list1)
