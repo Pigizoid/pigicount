@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+dependencies = ["numpy>=1.26", "numba>=0.58", "numpy_minmax>=0.2.0"]
+name = "pigi-Pigizoid"
+version = "0.0.1"
+authors = [
+  { name="Pigizoid", email="evansimpson470@gmail.com" },
+]
+description = "Fast Lightweight sorting algorithm"
+readme = "README.md"
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+keywords = ["pigicount", "sorting", "algorithm", "counting", "count", "pigizoid", "pigi"]
+[project.urls]
+Homepage = "https://github.com/Pigizoid/pigicount"
+Issues = "https://github.com/Pigizoid/pigicount/issues"

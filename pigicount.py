@@ -1,8 +1,8 @@
-import math, time, random, gc
+import math, time, random, gc, numpy_minmax
 
 import numpy as np
 from numba import prange
-from memory_profiler import profile, memory_usage
+#from memory_profiler import profile, memory_usage
 
 num = int(input("p17 size: "))
 t0 = time.perf_counter_ns()
@@ -22,8 +22,9 @@ def sort(list1):
 	
 	#-- find min max
 	llen = len(list1)
-	maxi = np.amax(list1)
-	mini = np.amin(list1)
+	mini,maxi = numpy_minmax.minmax(list1)
+	#maxi = np.amax(list1)
+	#mini = np.amin(list1)
 	
 	#-- better outlier method ~O(1) time
 	slist = [np.random.choice(list1) for x in range(7)]
@@ -97,7 +98,7 @@ def sort(list1):
 	#print(f"-All elements?----------{set(list1)==checklist}")   #check if the list contains original elements
 	#print(f"-Is it sorted?----------{all(list1[i] <= list1[i + 1] for i in range(len(list1)-1))}")   #checking if its sorted
 
-	list1=np.array([0]) #this is just to clean up RAM from lists for benchmarking
+	#list1=np.array([0]) #this is just to clean up RAM from lists for benchmarking
 	#buckets=np.array([0])
 	return list1
 

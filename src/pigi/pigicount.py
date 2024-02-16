@@ -1,29 +1,11 @@
-import math, time, random, gc
-
-import numpy as np
-from numba import prange
-from memory_profiler import profile, memory_usage
-
-num = int(input("p17 size: "))
-t0 = time.perf_counter_ns()
-list1 = np.random.randint(0, num, num, dtype=np.int64)
-t1 = time.perf_counter_ns()
-ta = t1-t0
-print(ta, "ns list creation")
-#print(list1)
-#checklist=set(list1)                     #used for checking if the list contains original elements
-print("list loaded with length")
-print(len(list1))
-print("sorting...")
-t00 = time.perf_counter_ns()
-
 #@profile
 def sort(list1):
 	
 	#-- find min max
 	llen = len(list1)
-	maxi = np.amax(list1)
-	mini = np.amin(list1)
+	mini,maxi = numpy_minmax.minmax(list1)
+	#maxi = np.amax(list1)
+	#mini = np.amin(list1)
 	
 	#-- better outlier method ~O(1) time
 	slist = [np.random.choice(list1) for x in range(7)]
@@ -97,46 +79,68 @@ def sort(list1):
 	#print(f"-All elements?----------{set(list1)==checklist}")   #check if the list contains original elements
 	#print(f"-Is it sorted?----------{all(list1[i] <= list1[i + 1] for i in range(len(list1)-1))}")   #checking if its sorted
 
-	list1=np.array([0]) #this is just to clean up RAM from lists for benchmarking
+	#list1=np.array([0]) #this is just to clean up RAM from lists for benchmarking
 	#buckets=np.array([0])
 	return list1
 
-sort(list1)
+
+if __name__ == "__main__":
+	import math, time, random, gc, numpy_minmax
+
+	import numpy as np
+	from numba import prange
+	#from memory_profiler import profile, memory_usage
+
+	num = int(input("p17 size: "))
+	t0 = time.perf_counter_ns()
+	list1 = np.random.randint(0, num, num, dtype=np.int64)
+	t1 = time.perf_counter_ns()
+	ta = t1-t0
+	print(ta, "ns list creation")
+	#print(list1)
+	#checklist=set(list1)                     #used for checking if the list contains original elements
+	print("list loaded with length")
+	print(len(list1))
+	print("sorting...")
+	t00 = time.perf_counter_ns()
+
+	
+	sort(list1)
 
 
-'''
-from line_profiler import LineProfiler
+	'''
+	from line_profiler import LineProfiler
 
-lp = LineProfiler()
-lp_wrapper = lp(sort)
-lp_wrapper(list1)
-lp.print_stats()
-#'''
-t10 = time.perf_counter_ns()
-ta = t10-t00
-print("Custom completed in: ",ta/1_000_000_000, "seconds total")
+	lp = LineProfiler()
+	lp_wrapper = lp(sort)
+	lp_wrapper(list1)
+	lp.print_stats()
+	#'''
+	t10 = time.perf_counter_ns()
+	ta = t10-t00
+	print("Custom completed in: ",ta/1_000_000_000, "seconds total")
 
-#-- sorted() below --#
+	#-- sorted() below --#
 
-'''
-#sorted()
-print("now running sorted() ...")
-list1 =  [random.randint(0, num) for x in range(num)]
-print("running")
-t0 = time.perf_counter_ns()
-list1= sorted(list1)
-t1 = time.perf_counter_ns()
-ta = t1-t0
-print("Sorted() completed in: ",ta/1_000_000_000, "ss")
-input("Done, enter to end")
-'''
-#np.sort()
-list1 = np.random.randint(0, num, num, dtype="int64")
-print("now running np.sort() ...")
-t0 = time.perf_counter_ns()
-list1= np.sort(list1)
-t1 = time.perf_counter_ns()
-ta = t1-t0
-print("np.sort() completed in: ",ta/1_000_000_000, "ss")
-input("Done, enter to end")
+	'''
+	#sorted()
+	print("now running sorted() ...")
+	list1 =  [random.randint(0, num) for x in range(num)]
+	print("running")
+	t0 = time.perf_counter_ns()
+	list1= sorted(list1)
+	t1 = time.perf_counter_ns()
+	ta = t1-t0
+	print("Sorted() completed in: ",ta/1_000_000_000, "ss")
+	input("Done, enter to end")
+	'''
+	#np.sort()
+	list1 = np.random.randint(0, num, num, dtype="int64")
+	print("now running np.sort() ...")
+	t0 = time.perf_counter_ns()
+	list1= np.sort(list1)
+	t1 = time.perf_counter_ns()
+	ta = t1-t0
+	print("np.sort() completed in: ",ta/1_000_000_000, "ss")
+	input("Done, enter to end")
 #'''
