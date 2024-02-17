@@ -1,12 +1,21 @@
+import math, time, random, gc, numpy_minmax
+
+import numpy as np
+from numba import prange
+import ctypes
+
 #@profile
 def sort(list1):
-	if type(list1)==list:
-		list1=np.array(list1)
+	contains_float=False
+	if isinstance(list1,np.ndarray)!=True:
+		list1=np.array(list1,dtype=np.int64)
 	#-- find min max
 	llen = len(list1)
 	mini,maxi = numpy_minmax.minmax(list1)
-	#maxi = np.amax(list1)
-	#mini = np.amin(list1)
+	typy = np.int64
+	if maxi < 2**31:
+		typy = np.int32
+		list1=list1.astype(typy)
 	
 	#-- better outlier method ~O(1) time
 	slist = [np.random.choice(list1) for x in range(7)]
@@ -47,25 +56,25 @@ def sort(list1):
 		midmaxi = np.amax(outliers[1])
 		
 	gc.enable()		
-	list1=np.empty((1,),dtype=np.int64)
+	list1=np.empty((1,),dtype=typy)
 
 	#-- create partioned buckets
 	buckets = []
 	maxis = [dmaxi,midmaxi,maxi]
 	minis = [mini,davg,uavg]
-	gc.disable()
+	gc.disable()	
 	
-	bt = [ np.array([],dtype=np.int64), np.array([],dtype=np.int64), np.array([],dtype=np.int64) ]
+	bt = [ np.empty((maxis[0]+1,),dtype=typy), np.empty((maxis[1]+1,),dtype=typy), np.empty((maxis[2]+1,),dtype=typy) ]
 	for y in prange(3):
-		bt[y] = np.bincount(outliers[y])#, minlength=maxis[y]+1, weights=None)
+		bt[y] = np.bincount(outliers[y])
 	del outliers
 	
-	lbz=np.array([np.sum(bt[0],dtype=np.int64),np.sum(bt[1],dtype=np.int64),np.sum(bt[2],dtype=np.int64)])
+	lbz=np.array([np.sum(bt[0],dtype=typy),np.sum(bt[1],dtype=typy),np.sum(bt[2],dtype=typy)])
 	lb3=lbz[0]+lbz[1]
 	lbs = [0, lbz[0], lb3]
 	lbe = [lbz[0], lb3, lb3+lbz[2]]
 	del lbz
-	list1=np.empty((llen,),dtype=np.int64)
+	list1=np.empty((llen,),dtype=typy)
 	for y in prange(3):
 		miy = minis[y]
 		arr = np.array(bt[y])
@@ -75,24 +84,14 @@ def sort(list1):
 	del arr
 	gc.enable()
 
-	#print(list1[-1])
-	#print(list1)
-	#print(f"-All elements?----------{set(list1)==checklist}")   #check if the list contains original elements
-	#print(f"-Is it sorted?----------{all(list1[i] <= list1[i + 1] for i in range(len(list1)-1))}")   #checking if its sorted
-
-	#list1=np.array([0]) #this is just to clean up RAM from lists for benchmarking
-	#buckets=np.array([0])
 	return list1
 
-import math, time, random, gc, numpy_minmax
-
-import numpy as np
-from numba import prange
 if __name__ == "__main__":
 	#from memory_profiler import profile, memory_usage
 
 	num = int(input("p17 size: "))
 	t0 = time.perf_counter_ns()
+	#list1 = [random.randint(0,num) for x in range(0,num)]
 	list1 = np.random.randint(0, num, num, dtype=np.int64)
 	t1 = time.perf_counter_ns()
 	ta = t1-t0
