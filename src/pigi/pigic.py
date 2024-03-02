@@ -2,7 +2,12 @@ import math, time, random, gc, numpy_minmax
 
 import numpy as np
 from numba import prange
-import ctypes
+
+
+print(np.__file__)
+#import ctypes
+
+#from memory_profiler import profile, memory_usage
 
 #@profile
 def sort(list1):
@@ -11,19 +16,21 @@ def sort(list1):
 		list1=np.array(list1,dtype=np.int64)
 	#-- find min max
 	llen = len(list1)
+	#mini = np.amin(list1)
+	#maxi = np.amax(list1)
 	mini,maxi = numpy_minmax.minmax(list1)
 	typy = np.int64
 	if maxi < 2**31:
 		typy = np.int32
-		list1=list1.astype(typy)
-	
+		list1 = list1.astype(typy, copy=False)
+		
 	#-- better outlier method ~O(1) time
 	slist = [np.random.choice(list1) for x in range(7)]
 	solist= [slist[0]]
-	lso = len(solist)
 	for x in range(1,7):
 		s = slist[x]
 		spot = 0
+		lso = len(solist)
 		while spot < lso and s > solist[spot]:
 			spot += 1
 		solist.insert(spot, s)
@@ -60,7 +67,7 @@ def sort(list1):
 
 	#-- create partioned buckets
 	buckets = []
-	maxis = [dmaxi,midmaxi,maxi]
+	maxis = [dmaxi,midmaxi,maxi-uavg+1]
 	minis = [mini,davg,uavg]
 	gc.disable()	
 	
@@ -75,11 +82,14 @@ def sort(list1):
 	lbe = [lbz[0], lb3, lb3+lbz[2]]
 	del lbz
 	list1=np.empty((llen,),dtype=typy)
+
+	
 	for y in prange(3):
 		miy = minis[y]
 		arr = np.array(bt[y])
 		arr = np.repeat(np.arange(np.size(bt[y]))+miy,arr)
 		list1[lbs[y]:lbe[y]] = arr
+
 	del bt
 	del arr
 	gc.enable()
@@ -87,7 +97,7 @@ def sort(list1):
 	return list1
 
 if __name__ == "__main__":
-	#from memory_profiler import profile, memory_usage
+	
 
 	num = int(input("p17 size: "))
 	t0 = time.perf_counter_ns()
